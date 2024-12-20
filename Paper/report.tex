@@ -1,0 +1,342 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,graphicx,psfrag,amsmath,amsfonts,verbatim}
+\usepackage[small,bf]{caption}
+\usepackage{amsthm}
+% \usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+\usepackage{bbm} % for the indicator function to look good
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{fancyhdr} % for the header
+\usepackage{booktabs} % for regression table display (toprule, midrule, bottomrule)
+\usepackage{adjustbox} % for regression table display
+\usepackage{threeparttable} % to use table notes
+\usepackage{natbib} % for bibliography
+\input newcommand.tex
+\bibliographystyle{apalike}
+% \setlength{\parindent}{0pt} % remove the automatic indentation
+
+\title{When to book a flight?\\{\large {A response to dynamic pricing and uncertainty}}}
+\author{Fu Zixuan \\{\small {Research proposal}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+% \thispagestyle{empty}
+% \begin{abstract}
+
+% \end{abstract}
+
+% \newpage
+% \thispagestyle{empty}
+% \tableofcontents
+% \newpage
+
+% \setcounter{page}{1}
+
+\section{Introduction}
+It is a well-known fact that airline companies adopt dynamic pricing to
+optimize revenue. The same strategy applies to other markets with perishable
+inventories as well, such as tickets for entertainment events. It has been
+shown that the xxx strategy increases firms' revenue by a significant amount
+\citep{}. In addition, many economic models have studied the optimal pricing
+strategy for firms, assuming that consumer arrivals follow a Poisson process
+with time-varying willingness to pay and price elasticity.
+
+Though it is not without good reason to model the consumer side in this way and
+ignore forward-looking behaviors, it is in my own interest to shed light on the
+traveler's intertemporal decision—what and when to buy? Anecdotal experience
+suggests that travelers may start checking prices a few months ahead but wait
+until a certain time to purchase. While prices may be low early on, they delay
+purchase until they are more certain about their travel plans. While the entire
+price change is unknown to travelers at the time of decision, they form some
+expectations about the price dynamics to make this kind of trade-off between
+cost and uncertainty. In fact, by setting a Google flight tracker, one can
+observe the ups and downs of the prices of desired flights, which fluctuate
+more or less around a low level at first and then increase as the departure
+date approaches.
+
+In this paper, I aim to model the consumer's dynamic decision-making process as
+each individual solving an optimal stopping problem. By doing so, I seek to
+answer the question of how consumers trade off between minimizing costs and
+reducing uncertainty. Through estimating the parameters that govern their
+decision-making, I plan to conduct counterfactual analyses on consumer welfare
+where firms adjust their pricing strategies (e.g., removing uncertainty and
+implementing only a monotonically increasing price structure) or modify their
+flexibility options.
+
+The paper is structured as follows: Section 2 reviews the related literature
+and highlights the unique features of the problem addressed in this paper. In
+Section 3, I present the model, starting with a simplified case. Section 4
+discusses the additional complexities that can be incorporated into the model.
+
+\section{Related Literature}
+This section revisits several classical dynamic discrete choice problems. By
+classifying and summarizing these examples, I aim to highlight the properties
+of the problem addressed in this paper and the ways in which it differs from
+existing literature.
+
+\paragraph{Base Case: One-Time Purchase of Non-Storable Goods}
+In the base case, a consumer enters the market, makes a purchase decision \(a\)
+based on product characteristics \(x\) and personal attributes \(z\), and then
+exits the market. The purchased goods are intended for immediate consumption
+and cannot be stored. Consequently, there is no inventory, and the
+decision-making process is static, with no intertemporal considerations. For
+example, studies that make this assumption include those on cereal purchases
+\citep{nevo2001measuring}, or car purchases \citep{berry1995automobile}.
+
+\paragraph{Repeated Decision with Consumption Utility for Storable Goods}
+This scenario introduces \textbf{stockpiling} behavior, as seen in the purchase
+of goods like detergent \citep{hendel2006measuring} or soft drinks. Here, the
+consumer enters the market with an existing inventory level \(i_t\) and faces
+individual inventory costs or limits. Their purchase decision depends on both
+the product characteristics \(x_t\) and the current inventory \(i_t\). For
+instance, the product price fluctuates between a regular price \(p_r\) and a
+sale price \(p_s\). At time \(t\), if the consumer chooses to buy, they pay the
+current price and accumulate inventory to consume over time, incurring holding
+costs or facing storage constraints. If they choose not to buy, they consume
+from their existing inventory.
+
+The dynamic aspect arises from the trade-off between purchasing at a lower
+price (e.g., during sales) and incurring the cost of holding additional
+inventory. The consumer must weigh the immediate cost savings against the
+future costs and benefits associated with stockpiling.
+
+\paragraph{One-Shot Decision with Flow Utility for Durable Goods}
+In this case, the consumer makes a one-time purchase decision, after which they
+accrue holding utility from the durable good over time. For example, consider
+purchasing a car \citep{grigolon2018consumer} or installing solar panels
+\citep{de2019subsidies}.\footnote{Patent renewal \citep{pakes1984patents} is
+    similar, though distinct, as the decision-maker exits by not paying, whereas in
+    the purchase example, the agent exits by buying.} The decision involves a
+trade-off between current costs and future benefits. The consumer evaluates
+whether the present price justifies the expected long-term utility of owning
+the product, considering potential changes in future costs or benefits.
+
+\paragraph{Repeated Decision with Flow Utility for Durable Goods}
+Here, consumers face a recurring decision to purchase or replace a durable
+good, such as in the bus engine replacement problem \citep{rust1987optimal} or
+the camcorder industry \citep{gowrisankaran2012dynamics}. At any given time,
+they hold and use only one product. If they decide to purchase, the holding
+utility derives from the newly acquired product \(f_j\); otherwise, it comes
+from the existing product \(f_0\).
+
+In this scenario, the characteristics of the owned product evolve over time
+(e.g., depreciation, as in the bus engine case), while market options may
+improve (e.g., technological innovation, as in the camcorder industry). Each
+period, the consumer evaluates whether to purchase a new product now (incurring
+an upfront cost but benefiting from higher quality) or delay the purchase
+(accepting lower holding utility in the short term but potentially gaining from
+lower future prices or better-quality options). This dynamic decision-making
+process involves balancing current utility against expected future gains.
+
+\paragraph{One-Shot Decision with Final Consumption Utility for Perishable Goods}
+This case primarily applies to goods like event tickets
+\citep{sweeting2012dynamic} or transport tickets
+\citep{board2016revenue,gershkov2018revenue}. Such goods have no residual value
+after their designated usage period, making them "perishable." Since ticket
+sales typically begin well in advance of the final usage date, consumers often
+start considering purchases several periods before the deadline.
+
+The consumer purchases only one ticket and consumes it at the final usage date,
+meaning there is no ongoing utility from holding the ticket. The decision is
+not about balancing current versus future flow utility but rather about
+minimizing costs under price fluctuations. Consumers anticipate price trends
+(e.g., initial variability followed by an eventual increase) and may delay
+their purchase to secure a lower price.
+
+Additionally, the time gap between purchase and consumption introduces
+uncertainty. As the final usage date approaches, the consumer gains better
+information about their plans or needs, allowing them to make a more informed
+decision. Thus, the trade-off involves evaluating price dynamics alongside the
+uncertainty of future utility at the time of purchase.
+
+The next section will formalize the dynamic problem the consumer faces when
+balancing cost and uncertainty in each period after they enter the market
+(begin checking prices). First, I will consider a simplified case and then
+gradually introduce more complexities.
+
+\section{Model}
+
+I focus on airline ticket purchase in this section. To illustrate the idea,
+figure \ref{fig:toy_model} depicts the simplest case. In this toy model with
+discrete time, I denote the last period as \(t=0\), which corresponds to the
+departure date. The value of \(t\) represents the number of periods before
+departure.
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{toy_model.png}
+%     \caption{Timeline of airline ticket purchase}
+%     \label{fig:toy_model}
+% \end{figure}
+
+\paragraph{Background} Consider a traveler who wants to fly in February 2025 (\(t=0\)). Suppose that
+in December 2024 (\(t=2\)), the traveler enters the market by searching for
+flights online. She then sets a price alert on Google Flights tracker
+\footnote{Add citation or URL for Google Flights tracker here.} for all the
+flights around that time. In the following two months (\(t = 2, 1,0\)), she
+decides whether to buy based on the current price \(p_t\) and her travel plans.
+She has a binary choice $a$, fly or not to fly. Therefore, her choice set is
+defined by \(\{0,1\}\). If she purchases a ticket, she will only realize her
+consumption utility at the last period (\(t=0\)), which corresponds to
+\(x\beta\).
+
+For example, it might be the case that in December, she buys the ticket
+immediately at price \(p_{t2}\). As time progresses to January $t=1$, the
+situation evolves as she realizes that she would be occupied at that time. If
+she were to make a decision now $t=1$, she would not fly. However, the ticket
+she bought at $t=2$ is non-modifiable and non-refundable (unfortunately). When
+she reaches \(t=0\), she realized utility $x\beta+\epsilon_{t0}$.
+
+\paragraph{State} At time \( t \), the known state of the individual includes:
+\begin{itemize}
+    \item \( p_t \): The current price of the ticket.
+    \item \( \epsilon_t \): The random shock observed in period \( t \).
+    \item \( \text{Bought}\): Whether the ticket has already been purchased.
+    \item \( x \): The product characteristics that determine the utility of flying.
+\end{itemize}
+The uncertainty arises from the next period \( t-1 \) price and shock.
+\begin{itemize}
+    \item The future price $p_{t-1}$. I assume that the price goes up in, following AR(1)
+          process with $p_{t-1}=\rho p_t + \nu_{t-1}$ and $\rho>1$.
+    \item The future shock $\epsilon_{t-1}$. I assume that they are T1EV with variance
+          \(\sigma_t^2\) and $\sigma_{t}^2>\sigma_{t-1}^2$. The variance goes down as the
+          departure date approaches.
+\end{itemize}
+\paragraph{Action}
+\begin{itemize}
+    \item \( a_t = 1 \): Buy the ticket in period \( t \).
+    \item \( a_t = 0 \): Wait until the next period to decide.
+\end{itemize}
+
+\paragraph{State Transition}\
+\begin{itemize}
+    \item If \( a_t = 1 \): The decision process ends, and no further actions are
+          possible.
+    \item If \( a_t = 0 \): The state transitions to the next period \( t - 1 \), and a
+          new shock \(\epsilon_{t-1}\) is observed.
+\end{itemize}
+
+\paragraph{Rewards}
+\begin{itemize}
+    \item If \( a_t = 1 \): Immediate reward is:
+          \[
+              R_t(a_t = 1) = V_0 - \alpha p_t - \epsilon_1,
+          \]
+          where \( V_0 \) is the final utility of flying, adjusted by the ticket price
+          and the shock at \( t \).
+    \item If \( a_t = 0 \): No reward is received in the current period.
+\end{itemize}
+
+\paragraph{Value Function} The value function \( V_t \) represents the maximum expected utility at time \(
+t \), given the state:
+\[
+    V_t = \max_{a_t} \mathbb{E}[R_t(a_t) + V_{t-1}].
+\]
+\begin{itemize}
+    \item If \( a_t = 1 \): The process terminates with reward \( R_t(a_t = 1) \).
+    \item If \( a_t = 0 \): The individual moves to \( t - 1 \), and the expectation
+          incorporates uncertainty about the future.
+\end{itemize}
+
+\paragraph{Recursive Formulation}
+The recursive relationship for the value function is:
+\[
+    V_t = \max \left\{ R_t(a_t = 1), \mathbb{E}[V_{t-1} | \text{no purchase}] \right\}.
+\]
+
+\begin{itemize}
+    \item Terminal period $t=0$:
+          \begin{itemize}
+              \item If the ticket is not purchased, utility is zero. If purchased:
+                    \[
+                        V_0 = x\beta - \alpha p_0 - \epsilon_0.
+                    \]
+              \item Expected value at \( t = 0 \):
+                    \[
+                        \E[V_1] = \int\int \max\left\{x\beta - \alpha p_0 - \epsilon_0, 0\right\} f(\epsilon_0)f(p_0) d\epsilon_0dp_0,
+                    \]
+                    where \( f(\epsilon_0), f(p_0)\) is the probability density function of the
+                    shock and the price.
+          \end{itemize}
+    \item Intermediate period $t>0$:
+          \begin{itemize}
+              \item  At \( t = 1 \), the value function is:
+                    \[
+                        V_1 = \max \left\{ x\beta - \alpha p_1 - \epsilon_1, \mathbb{E}[V_0] \right\}.
+                    \]
+              \item At \( t = 2 \), the value function is:
+                    \[
+                        V_2 = \max \left\{ x\beta - \alpha p_2 - \epsilon_2, \mathbb{E}[V_1] \right\}.
+                    \]
+
+          \end{itemize}
+\end{itemize}
+
+\paragraph{Choice Probability}
+Each individual \( i \)'s decision is based on the dynamic program, where they
+maximize their expected utility given the current information. The probability
+of individual \( i \) taking action \( a_t = 1 \) is given by:
+\[
+    P(a_t = 1 | p_t) = \frac{\exp((x\beta - \alpha p_t) / \sigma_t)}{\exp((x\beta - \alpha p_t) / \sigma_t) + \exp(\mathbb{E}[V_{t-1}] / \sigma_t)}.
+\]
+
+\paragraph{Estimation}
+We observe in the data the flight characteristics (in this case, only a flight
+dummy), the price of the ticket, and the purchase decision at each period. The
+parameters to be estimated include:
+\begin{itemize}
+    \item $\beta$: the coefficient on the flight characteristics.
+    \item $\alpha$: the price coefficient.
+    \item $\rho,\sigma_{\nu}$: the price process parameters.
+    \item $\sigma_t$: the standard deviation of the shock at each period.
+\end{itemize}
+
+The most straightforward approach is to estimate by maximum likelihood with
+individual purchase data. Other estimation techniques are to be investigated.
+
+\section{Discussion}
+
+The previous section presents the simplified scenario where the traveler makes
+only a binary choice. To construct the full choice set for an individual who
+has purchased a ticket, I include all the flights available with the same
+origin and destination, with departure dates in proximity.
+
+The market/choice set considered consists of flights by different companies,
+with various characteristics (the number of layovers, duration, the departure
+(arrival) time of the day, airline brand, etc.). With respect to layovers,
+unlike papers that focused on the firm side \citep{betancourt2022dynamic},
+which exclude connecting flights, I would like to include both, since many
+international flights involve layovers. International flights are important
+because prices are usually high, while price changes can be up to 20\%
+\footnote{This is according to personal experience. The statistics need to be
+    verified.}, which gives travelers higher incentives to think about the timing
+of purchase. In addition, for the same flight, there are usually different
+flexibility options, which can be included in the $x_j$. Meanwhile, the
+flexibility property can affect how the shock impacts consumers. Therefore, the
+size of the shock can be modeled as a function of the flexibility of the ticket
+with $\epsilon_t(a_t)=\epsilon_t(x_j(a_t))$, where $x_j(a_t)$ is the
+flexibility of the ticket choice $a_t$.
+
+In the toy model, (I assume that) the consumer assumes that the price follows
+an AR(1) process. The price dynamics can be made more realistic, for example,
+by assuming the price fluctuates around a certain level before a certain period
+($t>t_c$) and then increases more or less monotonically.
+
+In papers that focus on the firm side pricing strategy \citep{}, low
+willingness to pay (WTP) consumers arrive early (leisure traveler) and high WTP
+consumers arrive late (business traveler).\footnote{This pattern may be
+    reversed in the case of event or performance ticket sales. Early buyers are
+    often avid fans who closely follow the performers and assign greater value to
+    the event, leading to a higher willingness to pay. In contrast, late buyers may
+    discover the event later and have a lower willingness to pay.} This variation
+in WTP over time can be incorporated into consumer utility models by
+introducing a heterogeneous price coefficient that depends on both the time of
+arrival and individual characteristics.
+
+% In the data, we observe individual search and purchase behavior. The moment
+% they enter the market is marked by the first price search. 
+\pagebreak \newpage \bibliography{../References/ref.bib}
+
+\end{document}

@@ -12,6 +12,8 @@
 \usepackage{adjustbox} % for regression table display
 \usepackage{threeparttable} % to use table notes
 \usepackage{natbib} % for bibliography
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 \input newcommand.tex
 \bibliographystyle{apalike}
 % \setlength{\parindent}{0pt} % remove the automatic indentation
@@ -38,10 +40,11 @@
 It is a well-known fact that airline companies adopt dynamic pricing to
 optimize revenue. The same strategy applies to other markets with perishable
 inventories as well, such as tickets for entertainment events. It has been
-shown that the xxx strategy increases firms' revenue by a significant amount
-\citep{}. In addition, many economic models have studied the optimal pricing
-strategy for firms, assuming that consumer arrivals follow a Poisson process
-with time-varying willingness to pay and price elasticity.
+estimated that dynamic pricing increases airline's revenue by 7.6\% compared to
+uniform pricing \citep{williams2022welfare}. In addition, many economic models
+have studied the optimal pricing strategy for firms, assuming that consumer
+arrivals follow a Poisson process with time-varying willingness to pay and
+price elasticity.
 
 Though it is not without good reason to model the consumer side in this way and
 ignore forward-looking behaviors, it is in my own interest to shed light on the
@@ -170,6 +173,38 @@ departure.
 %     \caption{Timeline of airline ticket purchase}
 %     \label{fig:toy_model}
 % \end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % Resize the figure to 80% of the text width
+    \begin{tikzpicture}[>=Stealth]
+        % Axes
+        \draw[->] (-1,0) -- (8,0) node[below] {}; % x-axis
+        \draw[->] (-1,0) -- (-1,6) node[left] {Price}; % y-axis
+
+        % Timeline labels
+        \node[below] at (0,0) {Dec};
+        \node[below] at (3,0) {Jan};
+        \node[below] at (6,0) {Feb};
+
+        % Points and arrows
+        \node at (0,2) {$V_2 = \max\{x\beta+\epsilon_2, \E(V_1)\}$};
+        \draw[->] (0,1.5) -- (0,1);
+
+        \node at (3,3) {$V_1$};
+        \draw[->] (3,2.5) -- (3,2);
+
+        \node at (6,5) {$V_0 = \max\{x\beta + \epsilon_0, 0\}$};
+        \draw[->] (6,4.5) -- (6,4);
+
+        % Connecting arrows
+        \draw[->] (0,1) -- (3,2);
+        \draw[->] (3,2) -- (6,4);
+    \end{tikzpicture}
+
+    \caption{Timeline of airline ticket purchase}
+    \label{fig:toy_model}
+\end{figure}
 
 \paragraph{Background} Consider a traveler who wants to fly in February 2025 (\(t=0\)). Suppose that
 in December 2024 (\(t=2\)), the traveler enters the market by searching for
@@ -305,29 +340,29 @@ origin and destination, with departure dates in proximity.
 
 The market/choice set considered consists of flights by different companies,
 with various characteristics (the number of layovers, duration, the departure
-(arrival) time of the day, airline brand, etc.). With respect to layovers,
-unlike papers that focused on the firm side \citep{betancourt2022dynamic},
-which exclude connecting flights, I would like to include both, since many
-international flights involve layovers. International flights are important
-because prices are usually high, while price changes can be up to 20\%
-\footnote{This is according to personal experience. The statistics need to be
-    verified.}, which gives travelers higher incentives to think about the timing
-of purchase. In addition, for the same flight, there are usually different
-flexibility options, which can be included in the $x_j$. Meanwhile, the
-flexibility property can affect how the shock impacts consumers. Therefore, the
-size of the shock can be modeled as a function of the flexibility of the ticket
-with $\epsilon_t(a_t)=\epsilon_t(x_j(a_t))$, where $x_j(a_t)$ is the
-flexibility of the ticket choice $a_t$.
+(arrival) time of the day, airline brand, etc.). With respect to layovers, I
+would like to include both direct and connecting flights because many
+international flights involve layovers. Since prices for international flights
+are usually high and price changes can be up to 20\% \footnote{This is
+    according to personal experience. The statistics need to be verified.}, it
+gives travelers higher incentives to think about the timing of purchase. In
+addition, for the same flight, there are usually different flexibility options,
+which can be included in the $x_j$. Meanwhile, the flexibility property can
+affect how the shock impacts consumers. Therefore, the size of the shock can be
+modeled as a function of the flexibility of the ticket with
+$\epsilon_t(a_t)=\epsilon_t(x_j(a_t))$, where $x_j(a_t)$ is the flexibility of
+the ticket choice $a_t$.
 
 In the toy model, (I assume that) the consumer assumes that the price follows
 an AR(1) process. The price dynamics can be made more realistic, for example,
 by assuming the price fluctuates around a certain level before a certain period
 ($t>t_c$) and then increases more or less monotonically.
 
-In papers that focus on the firm side pricing strategy \citep{}, low
-willingness to pay (WTP) consumers arrive early (leisure traveler) and high WTP
-consumers arrive late (business traveler).\footnote{This pattern may be
-    reversed in the case of event or performance ticket sales. Early buyers are
+In papers that focus on the firm side pricing strategy
+\citep{williams2022welfare,betancourt2022dynamic}, it is a common assumption
+that willingness to pay (WTP) consumers arrive early (leisure traveler) and
+high WTP consumers arrive late (business traveler).\footnote{This pattern may
+    be reversed in the case of event or performance ticket sales. Early buyers are
     often avid fans who closely follow the performers and assign greater value to
     the event, leading to a higher willingness to pay. In contrast, late buyers may
     discover the event later and have a lower willingness to pay.} This variation

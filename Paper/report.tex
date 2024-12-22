@@ -333,17 +333,18 @@ individual purchase data. Other estimation techniques are to be investigated.
 
 \section{Discussion}
 
-The previous section presents the simplified scenario where the traveler makes
-only a binary choice. To construct the full choice set for an individual who
-has purchased a ticket, I include all the flights available with the same
-origin and destination, with departure dates in proximity.
+\subsection{Modeling} The previous section presents the simplified scenario where the traveler makes
+only a binary choice. The following paragraphs discuss additional elements that
+can be added to the toy model.
+\paragraph{Choice set} To construct the full choice set for an individual who has purchased a ticket,
+I include all the flights available with the same origin and destination, with
+departure dates in proximity.
 
-The market/choice set considered consists of flights by different companies,
-with various characteristics (the number of layovers, duration, the departure
-(arrival) time of the day, airline brand, etc.). With respect to layovers, I
-would like to include both direct and connecting flights because many
-international flights involve layovers. Since prices for international flights
-are usually high and price changes can be up to 20\% \footnote{This is
+\paragraph{Product characteristics} Flights differ by various characteristics (the number of layovers, duration,
+the departure (arrival) time of the day, airline brand, etc.). With respect to
+layovers, I would like to include both direct and connecting flights because
+many international flights involve layovers. Since prices for international
+flights are usually high and price changes can be up to 20\% \footnote{This is
     according to personal experience. The statistics need to be verified.}, it
 gives travelers higher incentives to think about the timing of purchase. In
 addition, for the same flight, there are usually different flexibility options,
@@ -353,12 +354,12 @@ modeled as a function of the flexibility of the ticket with
 $\epsilon_t(a_t)=\epsilon_t(x_j(a_t))$, where $x_j(a_t)$ is the flexibility of
 the ticket choice $a_t$.
 
-In the toy model, (I assume that) the consumer assumes that the price follows
+\paragraph{Price dynamics} In the toy model, (I assume that) the consumer assumes that the price follows
 an AR(1) process. The price dynamics can be made more realistic, for example,
 by assuming the price fluctuates around a certain level before a certain period
 ($t>t_c$) and then increases more or less monotonically.
 
-In papers that focus on the firm side pricing strategy
+\paragraph{Heterogenous price sensitivity} In papers that focus on the firm side pricing strategy
 \citep{williams2022welfare,betancourt2022dynamic}, it is a common assumption
 that willingness to pay (WTP) consumers arrive early (leisure traveler) and
 high WTP consumers arrive late (business traveler).\footnote{This pattern may
@@ -372,6 +373,24 @@ arrival and individual characteristics.
 
 % In the data, we observe individual search and purchase behavior. The moment
 % they enter the market is marked by the first price search. 
+
+\subsection{Counterfactual}
+To motivate the modeling of consumer choice, I consider two counterfactual
+exercises.
+
+\paragraph{Constraint on dynamic pricing} The extreme case would be to remove the price trend completely from the supply
+side as well as from the consumer's expectations. In this case, all consumers
+would delay their purchase until the last period. If the supply side\footnote{A
+    supply-side model will be needed.} can re-optimize to maximize profit but is
+constrained to constant pricing, what would be the new firm profit and consumer
+welfare?
+
+\paragraph{Constraint on flexibility options}
+If $x$ contains flexibility options and it affects period shock via
+$\epsilon_t(a_t)=\epsilon_t(x_j(a_t))$, what would be the consumer welfare if
+firms remove differential flexibility options (all plans have the same
+refund/modify policy)?
+
 \pagebreak \newpage \bibliography{../References/ref.bib}
 
 \end{document}

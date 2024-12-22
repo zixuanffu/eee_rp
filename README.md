@@ -1,6 +1,6 @@
 # EEE Part 1 Research Proposal
 
-See [here](/Paper/report.pdf) for the full text.
+See [here](/Paper/rp.pdf) for the full text.
 
 ## Abstract
 
